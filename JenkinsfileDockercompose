@@ -1,7 +1,7 @@
 pipeline{
-    agent {label:"jenkins-agent"}
+    agent {label "jenkins-agent"}
 
-environments{
+environment{
     PORT=4000
     MONGO_URI = credentials('mongo-uri')
     JWT_SECRET = credentials('jwt-secret')
