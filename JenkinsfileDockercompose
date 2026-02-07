@@ -57,5 +57,11 @@ environment{
                 sh 'docker push ${REPOSITORY_URI_FOR_BACKEND}${AWS_REPO_FOR_BACKEND}:${BUILD_NUMBER}'
             }
         }
+        stage("Dockercompose")
+        {
+            steps{
+                sh "docker compose up -d"
+            }
+        }
     }
 }
