@@ -1,0 +1,55 @@
+pipeline{
+    agent {label:"agentjenkins"}
+environments{
+    PORT=credentials('port')
+    MONGO_URI = credentials('mongo-uri')
+    JWT_SECRET = credentials('mongo-uri')
+    JWT_EXPIRE = credentials('jwt-expire')
+    COOKIE_EXPIRE = credentials('cookie-expire')
+    SENDGRID_API_KEY = credentials('sendgrid-api')
+    SENDGRID_MAIL = credentials('sendgrid-mail')
+    SENDGRID_RESET_TEMPLATEID = credentials('sendgrid-template-id')
+    AWS_BUCKET_NAME = credentials('aws-bucket-name')
+    AWS_BUCKET_REGION =credentials('aws-region')
+    AWS_IAM_USER_KEY = credentials('access-key')
+    AWS_IAM_USER_SECRET =credentials('secret-key')
+    NODE_ENV ="production"
+}
+    stages{
+        stage("Checkout to git")
+        {
+            steps{
+                git branch :"main",url:"https://github.com/Rakshithrpoojary/Instagram-k8s.git"
+            }
+        }
+        stage("Build frontend image")
+        {
+            steps{
+                dir("frontend")
+                {
+                sh "docker build -t ${AWS_REPO_FOR_FRONTEND} ."
+                }
+            }
+        }
+              stage("Build backend image")
+        {
+            steps{
+                dir("backend")
+                {
+                sh "docker build  -t ${AWS_REPO_FOR_BACKEND} ."
+                }
+            }
+        }
+        stage("push to docker")
+        {
+            steps{
+                sh 'aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${REPOSITORY_URI_FOR_FRONTEND}'
+                sh 'aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${REPOSITORY_URI_FOR_BACKEND}'
+                sh 'docker tag ${AWS_REPO_FOR_FRONTEND} ${REPOSITORY_URI_FOR_FRONTEND}${AWS_REPO_FOR_FRONTEND}:${BUILD_NUMBER}'
+                sh 'docker push ${REPOSITORY_URI_FOR_FRONTEND}${AWS_REPO_FOR_FRONTEND}:${BUILD_NUMBER}'
+                sh 'docker tag ${AWS_REPO_FOR_BACKEND} ${REPOSITORY_URI_FOR_BACKEND}${AWS_REPO_FOR_BACKEND}:${BUILD_NUMBER}'
+                sh 'docker push ${REPOSITORY_URI_FOR_BACKEND}${AWS_REPO_FOR_BACKEND}:${BUILD_NUMBER}'
+            }
+        }
+    }
+}
