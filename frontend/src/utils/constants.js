@@ -1,5 +1,5 @@
 // export const SOCKET_ENDPOINT = "http://localhost:4000";
-export const SOCKET_ENDPOINT = "https://instagrammern.herokuapp.com";
+export const SOCKET_ENDPOINT = "http://13.234.48.23:4000";
 
 export const stories = [
     {
