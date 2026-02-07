@@ -9,7 +9,7 @@ export const getAllChats = () => async (dispatch) => {
 
         dispatch({ type: ALL_CHATS_REQUEST });
 
-        const { data } = await axios.get('/api/v1/chats');
+        const { data } = await axios.get(`${API_URL}/api/v1/chats`);
 
         dispatch({
             type: ALL_CHATS_SUCCESS,
@@ -30,7 +30,7 @@ export const addNewChat = (userId) => async (dispatch) => {
 
         dispatch({ type: NEW_CHAT_REQUEST });
         const config = { header: { "Content-Type": "application/json" } }
-        const { data } = await axios.post("/api/v1/newChat", { receiverId: userId }, config);
+        const { data } = await axios.post(`${API_URL}/api/v1/newChat`, { receiverId: userId }, config);
 
         dispatch({
             type: NEW_CHAT_SUCCESS,
