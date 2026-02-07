@@ -1,14 +1,14 @@
 services:
   backend:
-    build: ./backend
-    container_name: backend
+    image: insta-backend:4
+    container_name: backendWW
     ports:
       - "4000:4000"
     depends_on:
       - mongodb
 
   frontend:
-    image: ./frontend
+    image: insta-frontend:4
     container_name: frontend
     ports:
       - "80:80"
