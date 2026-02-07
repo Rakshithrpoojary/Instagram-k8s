@@ -1,11 +1,12 @@
 pipeline{
-    agent {label:"agentjenkins"}
+    agent {label:"jenkins-agent"}
+
 environments{
-    PORT=credentials('port')
+    PORT=4000
     MONGO_URI = credentials('mongo-uri')
-    JWT_SECRET = credentials('mongo-uri')
-    JWT_EXPIRE = credentials('jwt-expire')
-    COOKIE_EXPIRE = credentials('cookie-expire')
+    JWT_SECRET = credentials('jwt-secret')
+    JWT_EXPIRE = 7d
+    COOKIE_EXPIRE = 5
     SENDGRID_API_KEY = credentials('sendgrid-api')
     SENDGRID_MAIL = credentials('sendgrid-mail')
     SENDGRID_RESET_TEMPLATEID = credentials('sendgrid-template-id')
@@ -14,6 +15,11 @@ environments{
     AWS_IAM_USER_KEY = credentials('access-key')
     AWS_IAM_USER_SECRET =credentials('secret-key')
     NODE_ENV ="production"
+    AWS_DEFAULT_REGION="ap-south-1"
+    AWS_REPO_FOR_FRONTEND = credentials('frontend-repo')
+    REPOSITORY_URI_FOR_FRONTEND =credentials('frontend-repo-url')
+    AWS_REPO_FOR_BACKEND =credentials('backend-repo')
+    REPOSITORY_URI_FOR_BACKEND = credentials('backend-repo-url')
 }
     stages{
         stage("Checkout to git")
