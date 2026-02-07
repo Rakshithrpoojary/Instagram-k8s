@@ -1,9 +1,13 @@
 const express = require('express');
+const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const errorMiddleware = require('./middlewares/error');
 
 const app = express();
-
+app.use(cors({
+    origin:"http://13.234.48.23",
+    credentials:true
+}))
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
