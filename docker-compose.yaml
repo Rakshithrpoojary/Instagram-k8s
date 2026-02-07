@@ -1,6 +1,20 @@
 services:
   backend:
     image: insta-backend:latest
+    environment:
+      PORT: 4000
+      MONGO_URI: mongodb://admin:admin123@mongodb:27017/mydatabase?authSource=admin
+      JWT_SECRET: U3YU23wef32BFE48t48br4tGERbvrtbrtb45n4ty848t4nerS
+      JWT_EXPIRE: 7d
+      COOKIE_EXPIRE: 5
+      SENDGRID_API_KEY: BUAA4G4JWXJ72GMTDX2Y7JA6
+      SENDGRID_MAIL: poojaryrakshith986@gmail.com
+      SENDGRID_RESET_TEMPLATEID: d-1d03483698384b6eaee30af04c3ea46f
+      AWS_BUCKET_NAME: amzn-insta
+      AWS_BUCKET_REGION: ap-south-1
+      AWS_IAM_USER_KEY: AKIAQXNTXN2VA2US5DXW
+      AWS_IAM_USER_SECRET: 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
+      NODE_ENV: production
     container_name: backend
     ports:
       - "4000:4000"
