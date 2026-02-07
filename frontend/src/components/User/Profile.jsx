@@ -89,7 +89,7 @@ const Profile = () => {
         }
         if (chat) {
             const friendId = chat.users?.find((id) => id !== loggedInUser._id);
-            navigate(`/direct/t/${chat._id}/${friendId}`);
+            // navigate(`/direct/t/${chat._id}/${friendId}`);
             dispatch({ type: NEW_CHAT_RESET });
         }
     }, [dispatch, chatError, chat, navigate]);
