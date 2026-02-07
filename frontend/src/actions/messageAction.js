@@ -1,6 +1,8 @@
 import axios from "axios";
 import { ALL_MESSAGES_FAIL, ALL_MESSAGES_REQUEST, ALL_MESSAGES_SUCCESS, CLEAR_ERRORS, NEW_MESSAGE_FAIL, NEW_MESSAGE_REQUEST, NEW_MESSAGE_SUCCESS } from "../constants/messageConstants";
 
+const API_URL= process.env.REACT_APP_BACKEND_URL;
+axios.defaults.withCredentials=true;
 // Get All Messages
 export const getAllMessages = (chatId) => async (dispatch) => {
     try {
