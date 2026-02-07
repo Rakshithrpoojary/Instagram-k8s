@@ -51,27 +51,27 @@ const Profile = () => {
         setViewModal(false)
     }
 
-    useEffect(() => {
-        if (error) {
-            toast.error(error);
-            dispatch(clearErrors());
-        }
-        dispatch(getUserDetails(params.username));
+    // useEffect(() => {
+    //     if (error) {
+    //         toast.error(error);
+    //         dispatch(clearErrors());
+    //     }
+    //     dispatch(getUserDetails(params.username));
 
-        if (followError) {
-            toast.error(followError);
-            dispatch(clearErrors());
-        }
-        if (success) {
-            toast.success(message)
-            dispatch({ type: FOLLOW_USER_RESET });
-        }
+    //     if (followError) {
+    //         toast.error(followError);
+    //         dispatch(clearErrors());
+    //     }
+    //     if (success) {
+    //         toast.success(message)
+    //         dispatch({ type: FOLLOW_USER_RESET });
+    //     }
 
-        // return () => {
-        //     dispatch({ type: USER_DETAILS_RESET })
-        // }
+    //     // return () => {
+    //     //     dispatch({ type: USER_DETAILS_RESET })
+    //     // }
 
-    }, [dispatch, error, params.username, followError, success, message]);
+    // }, [dispatch, error, params.username, followError, success, message]);
 
     useEffect(() => {
         // console.log(user?.followers?.some((id) => id === loggedInUser._id))
