@@ -20,6 +20,7 @@ environment{
     REPOSITORY_URI_FOR_FRONTEND =credentials('frontend-repo-url')
     AWS_REPO_FOR_BACKEND =credentials('backend-repo')
     REPOSITORY_URI_FOR_BACKEND = credentials('backend-repo-url')
+    REACT_APP_BACKEND_URL =credentials('backendurl')
 }
     stages{
         stage("Checkout to git")
