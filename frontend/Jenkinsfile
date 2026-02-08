@@ -5,7 +5,7 @@ nodejs 'node22'
 }
 
 environment{
-        SONAR_HOME= tool('sonar-scanner')
+        SONAR_HOME= tool 'sonar-scanner'
         AWS_DEFAULT_REGION = "ap-south-1"
         AWS_REPO_FOR_FRONTEND = credentials('frontend-repo')
         REPOSITORY_URI_FOR_FRONTEND = credentials('frontend-repo-url')
@@ -37,7 +37,7 @@ stages{
     stage ("Sonar scan")
     {
         steps{
-            withSonarQubeEnv('sonar-cred'){
+            withSonarQubeEnv('sonar-cred-main'){
    dir("frontend"){
                 sh '''${SONAR_HOME}/bin/sonar-scanner \
                     Dsonar-projectName=Insta-frontend \
