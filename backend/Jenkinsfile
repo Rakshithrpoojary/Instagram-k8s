@@ -28,7 +28,7 @@ stages{
         steps{
             dir("backend"){
                 sh 'npm install'
-                sh "trivy fs --format table --no-progress . > trivy.txt"
+                sh "trivy fs --format json . > trivy.json"
 
             }
         }
