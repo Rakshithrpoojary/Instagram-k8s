@@ -5,7 +5,7 @@ nodejs 'node22'
 }
 
 environment{
-        SONAR_HOME= tool('sonar-scanner')
+        SONAR_HOME= tool 'sonar-scanner'
         AWS_DEFAULT_REGION = "ap-south-1"
         AWS_REPO_FOR_BACKEND = credentials('backend-repo')
         REPOSITORY_URI_FOR_BACKEND = credentials('backend-repo-url')
