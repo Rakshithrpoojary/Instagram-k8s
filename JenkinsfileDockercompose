@@ -5,7 +5,7 @@ pipeline {
         PORT = 4000
         MONGO_URI = credentials('mongo-uri')
         JWT_SECRET = credentials('jwt-secret')
-        JWT_EXPIRE = 7d
+        JWT_EXPIRE = "7d"
         COOKIE_EXPIRE = 5
         SENDGRID_API_KEY = credentials('sendgrid-api')
         SENDGRID_MAIL = credentials('sendgrid-mail')
