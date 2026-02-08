@@ -28,7 +28,7 @@ stages{
         steps{
             dir("backend"){
                 sh 'npm install'
-                sh "trivy fs . > trivy.txt"
+                sh "trivy fs --format table --no-progress . > trivy.txt"
 
             }
         }
@@ -52,7 +52,7 @@ stages{
     stage("Sonar-quality gate")
     {
         steps{
-            waitForQualityGate(abortPipeline: false,credentialsId: 'sonar-token')
+            waitForQualityGate(abortPipeline: false)
         }
     }
     stage('Build docker image')
@@ -67,7 +67,7 @@ stages{
     stage("Scan image")
     {
         steps{
-            sh 'trivy image ${AWS_REPO_FOR_BACKEND} > trivyimage.txt'
+            sh 'trivy image -f html ${AWS_REPO_FOR_BACKEND} > trivyimage.html'
         }
     }
     stage('Push to ecr')
