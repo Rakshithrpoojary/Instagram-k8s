@@ -88,7 +88,7 @@ pipeline {
                 sh """
                 docker compose down
                 docker compose --env-file .env up -d
-                # delete after deployment for security
+                rm .env # delete after deployment for security
                 """
             }
         }
