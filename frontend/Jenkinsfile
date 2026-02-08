@@ -52,7 +52,7 @@ stages{
     stage("Sonar-quality gate")
     {
         steps{
-            waitForQualityGate(abortPipeline: false,credentialsId:'sonar-cred')
+            waitForQualityGate(abortPipeline: false,credentialsId:'sonar-token')
         }
     }
     stage('Build docker image')
