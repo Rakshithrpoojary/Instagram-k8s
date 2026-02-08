@@ -17,41 +17,41 @@ const PostContainer = ({ posts, id }) => {
     const { error: saveError, success: saveSuccess, message: saveMessage } = useSelector((state) => state.savePost)
     const { error: deleteError, success: deleteSuccess } = useSelector((state) => state.deletePost)
 
-    // useEffect(() => {
-    //     dispatch(getUserDetails(params.username));
-    //     if (likeError) {
-    //         toast.error(likeError);
-    //         dispatch(clearErrors());
-    //     }
-    //     if (success) {
-    //         toast.success(message)
-    //         dispatch({ type: LIKE_UNLIKE_POST_RESET });
-    //     }
-    //     if (commentError) {
-    //         toast.error(commentError);
-    //         dispatch(clearErrors());
-    //     }
-    //     if (commentSuccess) {
-    //         toast.success("Comment Added")
-    //         dispatch({ type: NEW_COMMENT_RESET });
-    //     }
-    //     if (saveError) {
-    //         toast.error(saveError);
-    //         dispatch(clearErrors());
-    //     }
-    //     if (saveSuccess) {
-    //         toast.success(saveMessage)
-    //         dispatch({ type: SAVE_UNSAVE_POST_RESET });
-    //     }
-    //     if (deleteError) {
-    //         toast.error(deleteError);
-    //         dispatch(clearErrors());
-    //     }
-    //     if (deleteSuccess) {
-    //         toast.success("Post Deleted")
-    //         dispatch({ type: DELETE_POST_RESET });
-    //     }
-    // }, [dispatch, success, likeError, message, commentError, commentSuccess, saveError, saveSuccess, saveMessage, deleteError, deleteSuccess]);
+    useEffect(() => {
+        dispatch(getUserDetails(params.username));
+        if (likeError) {
+            toast.error(likeError);
+            dispatch(clearErrors());
+        }
+        if (success) {
+            toast.success(message)
+            dispatch({ type: LIKE_UNLIKE_POST_RESET });
+        }
+        if (commentError) {
+            toast.error(commentError);
+            dispatch(clearErrors());
+        }
+        if (commentSuccess) {
+            toast.success("Comment Added")
+            dispatch({ type: NEW_COMMENT_RESET });
+        }
+        if (saveError) {
+            toast.error(saveError);
+            dispatch(clearErrors());
+        }
+        if (saveSuccess) {
+            toast.success(saveMessage)
+            dispatch({ type: SAVE_UNSAVE_POST_RESET });
+        }
+        if (deleteError) {
+            toast.error(deleteError);
+            dispatch(clearErrors());
+        }
+        if (deleteSuccess) {
+            toast.success("Post Deleted")
+            dispatch({ type: DELETE_POST_RESET });
+        }
+    }, [dispatch, success, likeError, message, commentError, commentSuccess, saveError, saveSuccess, saveMessage, deleteError, deleteSuccess]);
 
     return (
         <div className="grid grid-cols-3 gap-1 sm:gap-8 my-1 mb-8" id={id}>
