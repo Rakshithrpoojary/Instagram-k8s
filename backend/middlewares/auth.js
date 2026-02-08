@@ -4,6 +4,7 @@ const ErrorHandler = require("../utils/errorHandler");
 const catchAsync = require("./catchAsync");
 
 exports.isAuthenticated = catchAsync(async (req, res, next) => {
+console.log("JWT",process.env.JWT_SECRET);
 
     const { token } = req.cookies;
 
