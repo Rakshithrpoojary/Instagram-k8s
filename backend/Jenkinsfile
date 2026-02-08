@@ -37,8 +37,9 @@ stages{
     stage ("Sonar scan")
     {
         steps{
-            withSonarQubeEnv('sonar-cred'){
    dir("backend"){
+
+            withSonarQubeEnv('sonar-cred'){
                 sh '''${SONAR_HOME}/bin/sonar-scanner \
                     -Dsonar.projectName=Insta-backend \
                     -Dsonar.projectKey=Insta-backend
