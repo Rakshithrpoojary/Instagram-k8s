@@ -40,8 +40,8 @@ stages{
             withSonarQubeEnv('sonar-cred-main'){
    dir("frontend"){
                 sh '''${SONAR_HOME}/bin/sonar-scanner \
-                    Dsonar-projectName=Insta-frontend \
-                    Dsonar-projectKey=Insta-frontend
+                    -Dsonar.projectName=Insta-frontend \
+                    -Dsonar.projectKey=Insta-frontend
                 '''
             }
             }
