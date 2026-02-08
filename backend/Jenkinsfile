@@ -1,0 +1,81 @@
+pipeline{
+    agent {label 'jenkins-label'}
+tools{
+nodejs 'node22'
+}
+
+environment{
+        SONAR_HOME= tool('sonar-scanner')
+        AWS_DEFAULT_REGION = "ap-south-1"
+        AWS_REPO_FOR_BACKEND = credentials('backend-repo')
+        REPOSITORY_URI_FOR_BACKEND = credentials('backend-repo-url')
+}
+stages{
+    stage('Clean ws')
+    {
+        steps{
+            cleanWs()
+        }
+    }
+    stage('Checkout git')
+    {
+        steps{
+            git branch:'main', url:"https://github.com/Rakshithrpoojary/Instagram-k8s.git"
+        }
+    }
+    stage("install module")
+    {
+        steps{
+            dir("backend"){
+                sh 'npm install'
+                sh "trivy fs . > trivy.txt"
+
+            }
+        }
+    }
+
+    stage ("Sonar scan")
+    {
+        steps{
+            withSonarQubeEnv('sonar-cred'){
+   dir("backend"){
+                sh '''${SONAR_HOME}/bin/sonar-scanner \
+                    Dsonar-projectName=Insta-backend \
+                    Dsonar-projectKey=Insta-backend
+                '''
+            }
+            }
+         
+        }
+    }
+    stage("Sonar-quality gate")
+    {
+        steps{
+            waitForQualityGate(abortPipeline: false,credentialsId: 'sonar-cred')
+        }
+    }
+    stage('Build docker image')
+    {
+        steps{
+
+                sh 'docker system prune -f'
+                sh 'docker build -t {AWS_REPO_FOR_BACKEND} backend'
+            
+        }
+    }
+    stage("Scan image")
+    {
+        steps{
+            sh 'trivy image ${AWS_REPO_FOR_BACKEND} > trivyimage.txt'
+        }
+    }
+    stage('Push to ecr')
+    {
+      sh  '''aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${REPOSITORY_URI_FOR_BACKEND}
+       docker tag ${AWS_REPO_FOR_BACKEND} ${REPOSITORY_URI_FOR_BACKEND}${AWS_REPO_FOR_BACKEND}:${BUILD_NUMBER}
+        docker push ${REPOSITORY_URI_FOR_BACKEND}${AWS_REPO_FOR_BACKEND}:${BUILD_NUMBER}
+      '''
+    }
+
+}
+}
