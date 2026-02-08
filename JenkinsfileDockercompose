@@ -1,65 +1,99 @@
-pipeline{
-    agent {label "jenkins-agent"}
+pipeline {
+    agent { label "jenkins-agent" }
 
-environment{
-    PORT=4000
-    MONGO_URI = credentials('mongo-uri')
-    JWT_SECRET = credentials('jwt-secret')
-    JWT_EXPIRE = 7d
-    COOKIE_EXPIRE = 5
-    SENDGRID_API_KEY = credentials('sendgrid-api')
-    SENDGRID_MAIL = credentials('sendgrid-mail')
-    SENDGRID_RESET_TEMPLATEID = credentials('sendgrid-template-id')
-    AWS_BUCKET_NAME = credentials('aws-bucket-name')
-    AWS_BUCKET_REGION =credentials('aws-region')
-    AWS_IAM_USER_KEY = credentials('access-key')
-    AWS_IAM_USER_SECRET =credentials('secret-key')
-    NODE_ENV ="production"
-    AWS_DEFAULT_REGION="ap-south-1"
-    AWS_REPO_FOR_FRONTEND = credentials('frontend-repo')
-    REPOSITORY_URI_FOR_FRONTEND =credentials('frontend-repo-url')
-    AWS_REPO_FOR_BACKEND =credentials('backend-repo')
-    REPOSITORY_URI_FOR_BACKEND = credentials('backend-repo-url')
-    REACT_APP_BACKEND_URL =credentials('backendurl')
-}
-    stages{
-        stage("Checkout to git")
-        {
-            steps{
-                git branch :"main",url:"https://github.com/Rakshithrpoojary/Instagram-k8s.git"
+    environment {
+        PORT = 4000
+        MONGO_URI = credentials('mongo-uri')
+        JWT_SECRET = credentials('jwt-secret')
+        JWT_EXPIRE = 7d
+        COOKIE_EXPIRE = 5
+        SENDGRID_API_KEY = credentials('sendgrid-api')
+        SENDGRID_MAIL = credentials('sendgrid-mail')
+        SENDGRID_RESET_TEMPLATEID = credentials('sendgrid-template-id')
+        AWS_BUCKET_NAME = credentials('aws-bucket-name')
+        AWS_BUCKET_REGION = credentials('aws-region')
+        AWS_IAM_USER_KEY = credentials('access-key')
+        AWS_IAM_USER_SECRET = credentials('secret-key')
+        NODE_ENV = "production"
+        AWS_DEFAULT_REGION = "ap-south-1"
+        AWS_REPO_FOR_FRONTEND = credentials('frontend-repo')
+        REPOSITORY_URI_FOR_FRONTEND = credentials('frontend-repo-url')
+        AWS_REPO_FOR_BACKEND = credentials('backend-repo')
+        REPOSITORY_URI_FOR_BACKEND = credentials('backend-repo-url')
+        REACT_APP_BACKEND_URL = credentials('backendurl')
+    }
+
+    stages {
+        stage("Checkout") {
+            steps {
+                git branch: "main", url: "https://github.com/Rakshithrpoojary/Instagram-k8s.git"
             }
         }
-        stage("Build frontend image")
-        {
-            steps{
-                dir("frontend")
-                {
-                sh "docker build --build-arg REACT_APP_BACKEND_URL=${REACT_APP_BACKEND_URL} -t ${AWS_REPO_FOR_FRONTEND} ."
+
+        stage("Create .env file") {
+            steps {
+                sh """
+                echo "PORT=${PORT}" > .env
+                echo "MONGO_URI=${MONGO_URI}" >> .env
+                echo "JWT_SECRET=${JWT_SECRET}" >> .env
+                echo "JWT_EXPIRE=${JWT_EXPIRE}" >> .env
+                echo "COOKIE_EXPIRE=${COOKIE_EXPIRE}" >> .env
+                echo "SENDGRID_API_KEY=${SENDGRID_API_KEY}" >> .env
+                echo "SENDGRID_MAIL=${SENDGRID_MAIL}" >> .env
+                echo "SENDGRID_RESET_TEMPLATEID=${SENDGRID_RESET_TEMPLATEID}" >> .env
+                echo "AWS_BUCKET_NAME=${AWS_BUCKET_NAME}" >> .env
+                echo "AWS_BUCKET_REGION=${AWS_BUCKET_REGION}" >> .env
+                echo "AWS_IAM_USER_KEY=${AWS_IAM_USER_KEY}" >> .env
+                echo "AWS_IAM_USER_SECRET=${AWS_IAM_USER_SECRET}" >> .env
+                echo "NODE_ENV=${NODE_ENV}" >> .env
+                echo "AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}" >> .env
+                echo "REACT_APP_BACKEND_URL=${REACT_APP_BACKEND_URL}" >> .env
+                """
+            }
+        }
+
+        stage("Build frontend image") {
+            steps {
+                dir("frontend") {
+                    sh "docker build --build-arg REACT_APP_BACKEND_URL=${REACT_APP_BACKEND_URL} -t ${AWS_REPO_FOR_FRONTEND} ."
                 }
             }
         }
-              stage("Build backend image")
-        {
-            steps{
-                dir("backend")
-                {
-                sh "docker build  -t ${AWS_REPO_FOR_BACKEND} ."
+
+        stage("Build backend image") {
+            steps {
+                dir("backend") {
+                    sh "docker build -t ${AWS_REPO_FOR_BACKEND} ."
                 }
             }
         }
-        stage("push to docker")
-        {
-            steps{
-                sh 'aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${REPOSITORY_URI_FOR_FRONTEND}'
-                sh 'aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${REPOSITORY_URI_FOR_BACKEND}'
-                sh 'docker tag ${AWS_REPO_FOR_FRONTEND} ${REPOSITORY_URI_FOR_FRONTEND}${AWS_REPO_FOR_FRONTEND}:${BUILD_NUMBER}'
-                sh 'docker push ${REPOSITORY_URI_FOR_FRONTEND}${AWS_REPO_FOR_FRONTEND}:${BUILD_NUMBER}'
-                sh 'docker tag ${AWS_REPO_FOR_BACKEND} ${REPOSITORY_URI_FOR_BACKEND}${AWS_REPO_FOR_BACKEND}:${BUILD_NUMBER}'
-                sh 'docker push ${REPOSITORY_URI_FOR_BACKEND}${AWS_REPO_FOR_BACKEND}:${BUILD_NUMBER}'
+
+        stage("Push to docker") {
+            steps {
+                sh '''
+                aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${REPOSITORY_URI_FOR_FRONTEND}
+                aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${REPOSITORY_URI_FOR_BACKEND}
+                
+                docker tag ${AWS_REPO_FOR_FRONTEND} ${REPOSITORY_URI_FOR_FRONTEND}${AWS_REPO_FOR_FRONTEND}:${BUILD_NUMBER}
+                docker push ${REPOSITORY_URI_FOR_FRONTEND}${AWS_REPO_FOR_FRONTEND}:${BUILD_NUMBER}
+                
+                docker tag ${AWS_REPO_FOR_BACKEND} ${REPOSITORY_URI_FOR_BACKEND}${AWS_REPO_FOR_BACKEND}:${BUILD_NUMBER}
+                docker push ${REPOSITORY_URI_FOR_BACKEND}${AWS_REPO_FOR_BACKEND}:${BUILD_NUMBER}
+                '''
             }
         }
-        stage("Dockercompose")
-        {
+
+        stage("Docker Compose") {
+            steps {
+                sh """
+                docker compose down
+                docker compose --env-file .env up -d
+                # delete after deployment for security
+                """
+            }
+        }
+    }
+}        {
             steps{
                 sh "docker compose down"
                 sh "docker compose up -d"
