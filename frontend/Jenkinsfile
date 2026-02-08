@@ -71,10 +71,15 @@ stages{
     }
     stage('Push to ecr')
     {
-      sh  '''aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${REPOSITORY_URI_FOR_FRONTEND}
+        steps{
+            {
+                sh  '''aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${REPOSITORY_URI_FOR_FRONTEND}
        docker tag ${AWS_REPO_FOR_FRONTEND} ${REPOSITORY_URI_FOR_FRONTEND}${AWS_REPO_FOR_FRONTEND}:${BUILD_NUMBER}
         docker push ${REPOSITORY_URI_FOR_FRONTEND}${AWS_REPO_FOR_FRONTEND}:${BUILD_NUMBER}
       '''
+            }
+        }
+      
     }
 
 }
