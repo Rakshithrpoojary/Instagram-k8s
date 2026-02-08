@@ -60,7 +60,7 @@ stages{
         steps{
 
                 sh 'docker system prune -f'
-                sh 'docker build -t {AWS_REPO_FOR_BACKEND} backend'
+                sh 'docker build -t ${AWS_REPO_FOR_BACKEND} backend'
             
         }
     }
