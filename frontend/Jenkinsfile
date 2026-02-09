@@ -9,6 +9,7 @@ environment{
         AWS_DEFAULT_REGION = "ap-south-1"
         AWS_REPO_FOR_FRONTEND = credentials('frontend-repo')
         REPOSITORY_URI_FOR_FRONTEND = credentials('frontend-repo-url')
+        REACT_APP_BACKEND_URL = credentials('backendurl')
 }
 stages{
     stage('Clean ws')
@@ -60,7 +61,7 @@ stages{
         steps{
 
                 sh 'docker system prune -f'
-                sh 'docker build  -t ${AWS_REPO_FOR_FRONTEND} frontend'
+                sh "docker build --build-arg REACT_APP_BACKEND_URL=${REACT_APP_BACKEND_URL} -t ${AWS_REPO_FOR_FRONTEND} frontend"
             
         }
     }
