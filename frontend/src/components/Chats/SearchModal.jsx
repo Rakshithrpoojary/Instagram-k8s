@@ -24,7 +24,7 @@ const NewDialog = ({ open, onClose }) => {
 
     const fetchUsers = async (term) => {
         setLoading(true);
-        const { data } = await axios.get(`${API_URL}/api/v1/users?keyword=${term}`);
+        const { data } = await axios.get(`/api/v1/users?keyword=${term}`);
         setUsers(data.users.filter((u) => u._id !== self._id));
         setLoading(false);
     }
