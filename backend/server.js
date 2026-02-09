@@ -30,7 +30,7 @@ const server = app.listen(PORT, () => {
 const io = require("socket.io")(server, {
     // pingTimeout: 60000,
     cors: {
-        origin: "http://13.234.48.23",
+        origin: "http://abe3603d899eb422787a528e0549df39-836467243.ap-south-1.elb.amazonaws.com",
         credentials:true
     }
 });
