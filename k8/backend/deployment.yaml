@@ -37,3 +37,6 @@ spec:
               secretProviderClass: "my-secrets"
           ports:
             - containerPort: 4000
+          envFrom:
+            - secretRef:
+              name: k8-secrets
