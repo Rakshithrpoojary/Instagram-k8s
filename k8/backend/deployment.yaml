@@ -39,5 +39,5 @@ spec:
             readOnly: true
             volumeAttributes:
               secretProviderClass: "my-secrets"
-          ports:
-            - containerPort: 4000
+      ports:
+          - containerPort: 4000
