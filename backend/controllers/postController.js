@@ -2,7 +2,7 @@ const Post = require('../models/postModel');
 const User = require('../models/userModel');
 const catchAsync = require('../middlewares/catchAsync');
 const ErrorHandler = require('../utils/errorHandler');
-// const { deleteFile } = require('../utils/awsFunctions');
+const { deleteFile } = require('../utils/awsFunctions');
 
 // Create New Post
 exports.newPost = catchAsync(async (req, res, next) => {
@@ -69,7 +69,7 @@ exports.deletePost = catchAsync(async (req, res, next) => {
         return next(new ErrorHandler("Unauthorized", 401));
     }
 
-    // await deleteFile(post.image);
+    await deleteFile(post.image);
 
     await post.remove();
 

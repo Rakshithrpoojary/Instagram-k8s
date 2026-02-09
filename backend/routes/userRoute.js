@@ -1,11 +1,11 @@
 const express = require('express');
 const { loginUser, signupUser, logoutUser, followUser, updateProfile, updatePassword, forgotPassword, resetPassword, getUserDetails, getAccountDetails, getAllUsers, searchUsers, getUserDetailsById, deleteProfile } = require('../controllers/userController');
 const { isAuthenticated } = require('../middlewares/auth');
-// const { uploadAvatar } = require('../utils/awsFunctions');
+const { uploadAvatar } = require('../utils/awsFunctions');
 
 const router = express();
 
-// router.route("/signup").post(uploadAvatar.single('avatar'), signupUser);
+router.route("/signup").post(uploadAvatar.single('avatar'), signupUser);
 router.route("/login").post(loginUser);
 router.route("/logout").get(logoutUser);
 
