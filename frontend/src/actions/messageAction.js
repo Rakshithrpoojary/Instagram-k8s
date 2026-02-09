@@ -7,7 +7,7 @@ export const getAllMessages = (chatId) => async (dispatch) => {
 
         dispatch({ type: ALL_MESSAGES_REQUEST });
 
-        const { data } = await axios.get('/api/v1/messages/${chatId}');
+        const { data } = await axios.get(`/api/v1/messages/${chatId}`);
 
         dispatch({
             type: ALL_MESSAGES_SUCCESS,
