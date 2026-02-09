@@ -20,6 +20,11 @@ spec:
       labels:
         role: frontend
     spec:
+      tolerations:
+        - key: "key1"
+          operator: "Equal"
+          value: "dedicated"
+          effect: "NoSchedule"
       containers:
         - name: frontend
           image: 050305920682.dkr.ecr.ap-south-1.amazonaws.com/insta-frontend:35
