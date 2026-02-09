@@ -23,7 +23,7 @@ spec:
       serviceAccountName: insta-sa
       containers:
         - name: backend
-          image: 050305920682.dkr.ecr.ap-south-1.amazonaws.com/insta-backend:11
+          image: 050305920682.dkr.ecr.ap-south-1.amazonaws.com/insta-backend:12
           volumeMounts:
             - name: secrets-store
               mountPath: /mnt/secrets
