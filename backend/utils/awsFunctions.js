@@ -2,7 +2,7 @@ const aws = require('aws-sdk')
 const multer = require('multer')
 const multerS3 = require('multer-s3');
 const path = require('path');
-// process.env.AWS_BUCKET_NAME = "amzn-insta";
+process.env.AWS_BUCKET_NAME = "amzn-insta";
 const s3Config = new aws.S3({
     accessKeyId: process.env.AWS_IAM_USER_KEY,
     secretAccessKey: process.env.AWS_IAM_USER_SECRET,
