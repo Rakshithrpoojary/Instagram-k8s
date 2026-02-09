@@ -1,5 +1,5 @@
 // export const SOCKET_ENDPOINT = "http://localhost:4000";
-export const SOCKET_ENDPOINT = "http://k8s-insta-mainlb-3bd8b405e8-342612742.ap-south-1.elb.amazonaws.com";
+export const SOCKET_ENDPOINT = "http://k8s-insta-mainlb-3bd8b405e8-342612742.ap-south-1.elb.amazonaws.com/api";
 
 export const stories = [
     {
