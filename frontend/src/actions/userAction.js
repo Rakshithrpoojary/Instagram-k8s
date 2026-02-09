@@ -15,7 +15,7 @@ export const loginUser = (userId, password) => async (dispatch) => {
         }
 
         const { data } = await axios.post(
-            `${API_URL}/api/v1/login`,
+            '/api/v1/login',
             { userId, password },
             config
         );
@@ -45,7 +45,7 @@ export const registerUser = (userData) => async (dispatch) => {
         }
 
         const { data } = await axios.post(
-            `${API_URL}/api/v1/signup`,
+            '/api/v1/signup',
             userData,
             config
         );
@@ -69,7 +69,7 @@ export const loadUser = () => async (dispatch) => {
 
         dispatch({ type: LOAD_USER_REQUEST });
 
-        const { data } = await axios.get(`${API_URL}/api/v1/me`);
+        const { data } = await axios.get('/api/v1/me');
 
         dispatch({
             type: LOAD_USER_SUCCESS,
@@ -87,7 +87,7 @@ export const loadUser = () => async (dispatch) => {
 // Logout User
 export const logoutUser = () => async (dispatch) => {
     try {
-        await axios.get(`${API_URL}/api/v1/logout`);
+        await axios.get('/api/v1/logout');
         dispatch({ type: LOGOUT_USER_SUCCESS });
     } catch (error) {
         dispatch({
@@ -102,7 +102,7 @@ export const getUserDetails = (username) => async (dispatch) => {
     try {
 
         dispatch({ type: USER_DETAILS_REQUEST });
-        const { data } = await axios.get(`${API_URL}/api/v1/user/${username}`);
+        const { data } = await axios.get(`/api/v1/user/${username}`);
 
         dispatch({
             type: USER_DETAILS_SUCCESS,
@@ -122,7 +122,7 @@ export const getUserDetailsById = (userId) => async (dispatch) => {
     try {
 
         dispatch({ type: USER_DETAILS_REQUEST });
-        const { data } = await axios.get(`${API_URL}/api/v1/userdetails/${userId}`);
+        const { data } = await axios.get(`/api/v1/userdetails/${userId}`);
 
         dispatch({
             type: USER_DETAILS_SUCCESS,
@@ -144,7 +144,7 @@ export const getSuggestedUsers = () => async (dispatch) => {
         dispatch({ type: ALL_USERS_REQUEST });
 
         setTimeout(async () => {
-            const { data } = await axios.get(`${API_URL}/api/v1/users/suggested`);
+            const { data } = await axios.get(`/api/v1/users/suggested`);
 
             dispatch({
                 type: ALL_USERS_SUCCESS,
@@ -165,7 +165,7 @@ export const followUser = (userId) => async (dispatch) => {
     try {
 
         dispatch({ type: FOLLOW_USER_REQUEST });
-        const { data } = await axios.get(`${API_URL}/api/v1/follow/${userId}`);
+        const { data } = await axios.get(`/api/v1/follow/${userId}`);
 
         dispatch({
             type: FOLLOW_USER_SUCCESS,
@@ -193,7 +193,7 @@ export const forgotPassword = (email) => async (dispatch) => {
         }
 
         const { data } = await axios.post(
-            `${API_URL}/api/v1/password/forgot`,
+            '/api/v1/password/forgot',
             { email },
             config
         );
@@ -224,7 +224,7 @@ export const resetPassword = (token, password) => async (dispatch) => {
         }
 
         const { data } = await axios.put(
-            `${API_URL}/api/v1/password/reset/${token}`,
+            `/api/v1/password/reset/${token}`,
             { password },
             config
         );
@@ -255,7 +255,7 @@ export const updateProfile = (userData) => async (dispatch) => {
         }
 
         const { data } = await axios.put(
-            `${API_URL}/api/v1/update/profile`,
+            '/api/v1/update/profile',
             userData,
             config
         );
@@ -285,7 +285,7 @@ export const updatePassword = (passwords) => async (dispatch) => {
             },
         }
         const { data } = await axios.put(
-            `${API_URL}/api/v1/update/password`,
+            '/api/v1/update/password',
             passwords,
             config
         );
