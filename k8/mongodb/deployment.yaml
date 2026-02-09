@@ -16,6 +16,9 @@ spec:
       containers:
       - name: mon
         image: mongo:4.4.6
+        envFrom:
+         - secretRef:
+            name: k8-secrets
         command:
             - "numactl"
             - "--interleave=all"
@@ -26,17 +29,6 @@ spec:
             - "0.0.0.0"
         ports:
         - containerPort: 27017
-        env: 
-          - name: MONGO_INITDB_ROOT_USERNAME
-            valueFrom:
-              secretKeyRef:
-                name: mongo-sec
-                key: username
-          - name: MONGO_INITDB_ROOT_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: mongo-sec
-                key: password
         volumeMounts:
           - name: mongo-volume
             mountPath: /data/db
