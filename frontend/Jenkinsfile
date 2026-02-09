@@ -61,7 +61,7 @@ stages{
         steps{
 
                 sh 'docker system prune -f'
-                sh "docker build --build-arg REACT_APP_BACKEND_URL=${REACT_APP_BACKEND_URL} -t ${AWS_REPO_FOR_FRONTEND} frontend"
+                sh "docker build -t ${AWS_REPO_FOR_FRONTEND} frontend"
             
         }
     }
