@@ -42,7 +42,7 @@ const Inbox = () => {
     const userId = params.userId;
 
     useEffect(() => {
-        socket.current = io(SOCKET_ENDPOINT);
+        socket.current = io();
         socket.current.on("getMessage", (data) => {
             setArrivalMessage({
                 sender: data.senderId,

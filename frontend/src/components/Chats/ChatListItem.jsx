@@ -21,7 +21,7 @@ const ChatListItem = ({ _id, users, latestMessage }) => {
     }, [users]);
 
     useEffect(() => {
-        socket.current = io(SOCKET_ENDPOINT);
+        socket.current = io();
     }, []);
 
     useEffect(() => {
