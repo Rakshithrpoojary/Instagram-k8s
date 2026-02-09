@@ -23,85 +23,13 @@ spec:
       containers:
         - name: backend
           image: 050305920682.dkr.ecr.ap-south-1.amazonaws.com/insta-backend:11
+          volumeMounts:
+            - name: secrets-store
+              mountPath: /mnt/secrets
+              readOnly: true
           imagePullPolicy: Always
-          env:
-            - name: PORT
-              valueFrom:
-                secretKeyRef:
-                  name: k8-secrets
-                  key: PORT
-            - name: MONGO_URI
-              valueFrom:
-                secretKeyRef:
-                  name: k8-secrets
-                  key: MONGO_URI
-            - name: JWT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: k8-secrets
-                  key: JWT_SECRET
-            - name: JWT_EXPIRE
-              valueFrom:
-                secretKeyRef:
-                  name: k8-secrets
-                  key: JWT_EXPIRE
-            - name: COOKIE_EXPIRE
-              valueFrom:
-                secretKeyRef:
-                  name: k8-secrets
-                  key: COOKIE_EXPIRE
-            - name: SENDGRID_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: k8-secrets
-                  key: SENDGRID_API_KEY
-            - name: SENDGRID_MAIL
-              valueFrom:
-                secretKeyRef:
-                  name: k8-secrets
-                  key: SENDGRID_MAIL
-            - name: SENDGRID_RESET_TEMPLATEID
-              valueFrom:
-                secretKeyRef:
-                  name: k8-secrets
-                  key: SENDGRID_RESET_TEMPLATEID
-            - name: AWS_BUCKET_NAME
-              valueFrom:
-                secretKeyRef:
-                  name: k8-secrets
-                  key: AWS_BUCKET_NAME
-            - name: AWS_BUCKET_REGION
-              valueFrom:
-                secretKeyRef:
-                  name: k8-secrets
-                  key: AWS_BUCKET_REGION
-            - name: AWS_IAM_USER_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: k8-secrets
-                  key: AWS_IAM_USER_KEY
-            - name: AWS_IAM_USER_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: k8-secrets
-                  key: AWS_IAM_USER_SECRET
-            - name: NODE_ENV
-              valueFrom:
-                secretKeyRef:
-                  name: k8-secrets
-                  key: NODE_ENV
-            - name: AWS_DEFAULT_REGION
-              valueFrom:
-                secretKeyRef:
-                  name: k8-secrets
-                  key: AWS_DEFAULT_REGION
-            - name: REACT_APP_BACKEND_URL
-              valueFrom:
-                secretKeyRef:
-                  name: k8-secrets
-                  key: REACT_APP_BACKEND_URL
       volumes:
-        - name: secrets-store-inline
+        - name: secrets-store
           csi:
             driver: secrets-store.csi.k8s.io
             readOnly: true
