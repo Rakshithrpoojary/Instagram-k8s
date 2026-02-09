@@ -1,5 +1,5 @@
 // export const SOCKET_ENDPOINT = "http://localhost:4000";
-export const SOCKET_ENDPOINT = "http://13.234.48.23:4000";
+export const SOCKET_ENDPOINT = "http://a20a268a9a8fa41538a80ecf0c3bc8c3-112005148.ap-south-1.elb.amazonaws.com";
 
 export const stories = [
     {
