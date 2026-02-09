@@ -27,12 +27,7 @@ const server = app.listen(PORT, () => {
 
 // ============= socket.io ==============
 
-const io = require("socket.io")(server, {
-    // pingTimeout: 60000,
-    cors: {
-        credentials:true
-    }
-});
+const io = require("socket.io")(server);
 
 let users = [];
 
