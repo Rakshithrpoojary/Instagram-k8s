@@ -67,7 +67,7 @@ stages{
     stage("Scan image")
     {
         steps{
-            sh 'trivy image -format json ${AWS_REPO_FOR_BACKEND} > trivyimage.txt'
+            sh 'trivy image -format json ${AWS_REPO_FOR_BACKEND} > trivyimage.json'
         }
     }
     stage('Push to ecr')
