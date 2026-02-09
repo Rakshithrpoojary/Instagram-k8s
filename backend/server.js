@@ -3,7 +3,7 @@ const express = require('express');
 const app = require('./app');
 const connectDatabase = require('./config/database');
 const PORT = process.env.PORT || 4000;
-console.log("Hi",process.env.PORT,process.env.AWS_BUCKET_NAME);
+// console.log("Hi",process.env.PORT,process.env.AWS_BUCKET_NAME);
 connectDatabase();
 
 // deployment
