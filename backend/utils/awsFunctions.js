@@ -2,16 +2,16 @@ const aws = require('aws-sdk')
 const multer = require('multer')
 const multerS3 = require('multer-s3');
 const path = require('path');
-process.env.AWS_BUCKET_NAME = "amzn-insta";
+// process.env.AWS_BUCKET_NAME = "amzn-insta";
 const s3Config = new aws.S3({
     accessKeyId: process.env.AWS_IAM_USER_KEY,
     secretAccessKey: process.env.AWS_IAM_USER_SECRET,
-    Bucket: process.env.AWS_BUCKET_NAME
+    Bucket: "amzn-insta"
 });
 
 const avatarS3Config = multerS3({
     s3: s3Config,
-    bucket: process.env.AWS_BUCKET_NAME,
+    bucket: "amzn-insta",
     acl: 'public-read',
     metadata: function (req, file, cb) {
         cb(null, { fieldName: file.fieldname });
@@ -24,7 +24,7 @@ const avatarS3Config = multerS3({
 
 const postS3Config = multerS3({
     s3: s3Config,
-    bucket: process.env.AWS_BUCKET_NAME,
+    bucket: "amzn-insta",
     acl: 'public-read',
     metadata: function (req, file, cb) {
         cb(null, { fieldName: file.fieldname });
@@ -52,7 +52,7 @@ exports.uploadPost = multer({
 exports.deleteFile = async (fileuri) => {
     const fileKey = fileuri.split('/').slice(-2).join("/");
     return await s3Config.deleteObject({
-        Bucket: process.env.AWS_BUCKET_NAME,
+        Bucket: "amzn-insta",
         Key: fileKey
     }).promise();
 }
