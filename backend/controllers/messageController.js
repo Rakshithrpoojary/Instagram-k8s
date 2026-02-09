@@ -25,11 +25,11 @@ exports.newMessage = catchAsync(async (req, res, next) => {
 
 // Get All Messages
 exports.getMessages = catchAsync(async (req, res, next) => {
-
+console.log("chat id",req.params.chatId);
     const messages = await Message.find({
         chatId: req.params.chatId
     });
-
+console.log("messages",messages);
     res.status(200).json({
         success: true,
         messages,
