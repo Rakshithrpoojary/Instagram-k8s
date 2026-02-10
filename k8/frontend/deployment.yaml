@@ -21,7 +21,7 @@ spec:
         role: frontend
     spec:
       tolerations:
-        - key: "hi"
+        - key: "bi"
           operator: "Equal"
           value: "good"
           effect: "NoSchedule"
