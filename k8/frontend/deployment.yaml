@@ -24,5 +24,10 @@ spec:
         - name: frontend
           image: 050305920682.dkr.ecr.ap-south-1.amazonaws.com/insta-frontend:35
           imagePullPolicy: Always
-          ports:
-            - containerPort: 80
+      tolerations:
+        - key: "ki"
+          operator: "Equal"
+          value: "bad"
+          effect: "NoSchedule"
+      ports:
+          - containerPort: 80

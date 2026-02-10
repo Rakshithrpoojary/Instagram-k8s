@@ -32,11 +32,6 @@ spec:
               mountPath: /mnt/secrets
               readOnly: true
           imagePullPolicy: Always
-      tolerations:
-        - key: "ki"
-          operator: "Equal"
-          value: "bad"
-          effect: "NoSchedule"
       volumes:
         - name: secrets-store
           csi:
