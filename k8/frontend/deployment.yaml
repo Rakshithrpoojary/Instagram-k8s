@@ -27,7 +27,7 @@ spec:
           ports:
             - containerPort: 80
       tolerations:
-        - key: "bi"
+        - key: "ji"
           operator: "Equal"
-          value: "good"
+          value: "bod"
           effect: "NoSchedule"
