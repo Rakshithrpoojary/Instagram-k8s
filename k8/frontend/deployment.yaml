@@ -24,11 +24,6 @@ spec:
         - name: frontend
           image: 050305920682.dkr.ecr.ap-south-1.amazonaws.com/insta-frontend:35
           imagePullPolicy: Always
-      tolerations:
-        - key: "rak"
-          operator: "Equal"
-          value: "poo"
-          effect: "NoSchedule"
       nodeSelector:
           dedicated: frontend
       ports:
