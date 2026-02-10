@@ -22,7 +22,7 @@ spec:
     spec:
       tolerations:
         - key: "key1"
-          operator: "Equal"
+          operator: "Equals"
           value: "dedicated"
           effect: "NoSchedule"
       containers:
