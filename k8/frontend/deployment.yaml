@@ -20,14 +20,14 @@ spec:
       labels:
         role: frontend
     spec:
-      tolerations:
-        - key: "bi"
-          operator: "Equal"
-          value: "good"
-          effect: "NoSchedule"
       containers:
         - name: frontend
           image: 050305920682.dkr.ecr.ap-south-1.amazonaws.com/insta-frontend:35
           imagePullPolicy: Always
           ports:
             - containerPort: 80
+      tolerations:
+        - key: "bi"
+          operator: "Equal"
+          value: "good"
+          effect: "NoSchedule"
