@@ -21,9 +21,9 @@ spec:
         role: frontend
     spec:
       tolerations:
-        - key: "key1"
+        - key: "hi"
           operator: "Equal"
-          value: "dedicated"
+          value: "good"
           effect: "NoSchedule"
       containers:
         - name: frontend
