@@ -29,5 +29,5 @@ spec:
       tolerations:
         - key: "ki"
           operator: "Equal"
-          value: "bod"
+          value: "bad"
           effect: "NoSchedule"
