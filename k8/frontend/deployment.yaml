@@ -25,9 +25,9 @@ spec:
           image: 050305920682.dkr.ecr.ap-south-1.amazonaws.com/insta-frontend:35
           imagePullPolicy: Always
       tolerations:
-        - key: "ki"
+        - key: "rak"
           operator: "Equal"
-          value: "bad"
+          value: "poo"
           effect: "NoSchedule"
       ports:
           - containerPort: 80
