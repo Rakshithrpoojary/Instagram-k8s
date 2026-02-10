@@ -26,8 +26,3 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 80
-      tolerations:
-        - key: "ki"
-          operator: "Equal"
-          value: "bad"
-          effect: "NoSchedule"
