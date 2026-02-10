@@ -29,5 +29,7 @@ spec:
           operator: "Equal"
           value: "poo"
           effect: "NoSchedule"
+      nodeSelector:
+          dedicated: frontend
       ports:
           - containerPort: 80
