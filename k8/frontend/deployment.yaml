@@ -23,6 +23,9 @@ spec:
       containers:
         - name: frontend
           image: 050305920682.dkr.ecr.ap-south-1.amazonaws.com/insta-frontend:35
+          resources:
+            requests:
+              cpu: 100m
           imagePullPolicy: Always
       nodeSelector:
           dedicated: frontend
