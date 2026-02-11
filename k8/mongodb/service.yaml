@@ -5,10 +5,19 @@ metadata:
   namespace: insta
 spec:
   ports:
-    - name: mongodb-svc
-      port: 27017
-      targetPort: 27017
-      protocol: TCP
+    - port: 27017
   type: ClusterIP
+  selector:
+    app: mongodb
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo
+  namespace: insta
+spec:
+  ClusterIP: None
+  ports:
+    - port: 27017
   selector:
     app: mongodb
