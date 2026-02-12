@@ -30,7 +30,5 @@ spec:
             requests:
               cpu: 100m
           imagePullPolicy: Always
-      nodeSelector:
-          dedicated: frontend
       ports:
           - containerPort: 80
