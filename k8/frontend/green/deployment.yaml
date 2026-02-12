@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-green
+  namespace: insta
+  labels:
+    app: frontend
+    version: green
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: frontend
+      version: green
+  template:
+    metadata:
+      labels:
+        app: frontend
+        version: green
+    spec:
+      containers:
+        - name: frontend
+          image: 050305920682.dkr.ecr.ap-south-1.amazonaws.com/insta-frontend:35
+          resources:
+            requests:
+              cpu: 100m
+          imagePullPolicy: Always
+      nodeSelector:
+          dedicated: frontend
+      ports:
+          - containerPort: 80

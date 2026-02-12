@@ -1,29 +1,47 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: mainlb
-  namespace: insta
+  name: "hello-kubernetes"
+  namespace: "insta"
   annotations:
+    kubernetes.io/ingress.class: alb
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/target-type: ip
-    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
-    # alb.ingress.kubernetes.io/subnets: "subnet-0aa439b4ddafcca10,subnet-0b95df318219145ca,subnet-0ccca36474902829a"
+    alb.ingress.kubernetes.io/actions.blue-green: |
+      {
+        "type":"forward",
+        "forwardConfig":{
+          "targetGroups":[
+            {
+              "serviceName":"frontend-blue",
+              "servicePort":"80",
+              "weight":100
+            },
+            {
+              "serviceName":"frontend-green",
+              "servicePort":"80",
+              "weight":0
+            }
+          ]
+        }
+      }
+  labels:
+    app: hello-kubernetes
 spec:
-  ingressClassName: alb
   rules:
     - http:
         paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: blue-green
+                port:
+                  name: use-annotation
           - path: /api
             pathType: Prefix
             backend:
               service:
                 name: backend
-                port:
-                  number: 80
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: frontend
                 port:
                   number: 80
