@@ -5,4 +5,4 @@ RUN npm ci --omit=dev
 COPY . .
 USER node
 EXPOSE 4000
-CMD ["npm", "start"]
+ENTRYPOINT ["npm", "start"]

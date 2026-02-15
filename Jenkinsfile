@@ -1,0 +1,88 @@
+pipeline{
+    agent {label 'jenkins-agent'}
+tools{
+nodejs 'node22'
+}
+
+environment{
+        SONAR_HOME= tool 'sonar-scanner'
+        AWS_DEFAULT_REGION = "ap-south-1"
+        AWS_REPO_FOR_FRONTEND = credentials('frontend-repo')
+        REPOSITORY_URI_FOR_FRONTEND = credentials('frontend-repo-url')
+        REACT_APP_BACKEND_URL = credentials('backendurl')
+}
+stages{
+    stage('Clean ws')
+    {
+        steps{
+            cleanWs()
+        }
+    }
+    stage('Checkout git')
+    {
+        steps{
+            git branch:'main', url:"https://github.com/Rakshithrpoojary/Instagram-k8s.git"
+        }
+    }
+    stage("install module")
+    {
+        steps{
+            dir("frontend"){
+                sh 'npm install'
+                sh "trivy fs . > trivy.txt"
+
+            }
+        }
+    }
+
+    stage ("Sonar scan")
+    {
+        steps{
+   dir("frontend"){
+
+            withSonarQubeEnv('sonar'){
+                sh '''$SONAR_HOME/bin/sonar-scanner \
+                    -Dsonar.projectName=Insta-frontend \
+                    -Dsonar.projectKey=Insta-frontend
+                '''
+            }
+            }
+         
+        }
+    }
+    stage("Sonar-quality gate")
+    {
+        steps{
+            waitForQualityGate(abortPipeline: false)
+        }
+    }
+    stage('Build docker image')
+    {
+        steps{
+
+                sh 'docker system prune -f'
+                sh "docker build -t ${AWS_REPO_FOR_FRONTEND} frontend"
+            
+        }
+    }
+    stage("Scan image")
+    {
+        steps{
+            sh 'trivy image ${AWS_REPO_FOR_FRONTEND} > trivyimage.txt'
+        }
+    }
+    stage('Push to ecr')
+    {
+        steps{
+            
+                sh  '''aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${REPOSITORY_URI_FOR_FRONTEND}
+       docker tag ${AWS_REPO_FOR_FRONTEND} ${REPOSITORY_URI_FOR_FRONTEND}${AWS_REPO_FOR_FRONTEND}:${BUILD_NUMBER}
+        docker push ${REPOSITORY_URI_FOR_FRONTEND}${AWS_REPO_FOR_FRONTEND}:${BUILD_NUMBER}
+      '''
+            
+        }
+      
+    }
+
+}
+}
