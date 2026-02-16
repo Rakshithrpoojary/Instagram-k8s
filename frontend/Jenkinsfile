@@ -22,7 +22,7 @@ stages{
     {
         steps{
             git branch:'main', url:"https://github.com/Rakshithrpoojary/Instagram-k8s.git"
-           sh 'echo $AWS_REPO_FOR_FRONTEND'
+           sh 'echo $AWS_REPO_FOR_FRONTEND | base64'
         }
     }
     stage("install module")
