@@ -3,7 +3,11 @@ pipeline{
 tools{
 nodejs 'node22'
 }
-
+parameters{
+    choice(name:'ENV',choices:['dev','stage','prod'],description:'Were to deploy?')
+    string(name:"BRANCH",defaultValue:'main',description:'Which branch to build?')
+    booleanParam(name:'RELESE',defaultValue:false,description:"Is this a production release")
+}
 environment{
         SONAR_HOME= tool 'sonar-scanner'
         AWS_DEFAULT_REGION = "ap-south-1"
