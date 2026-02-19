@@ -1,4 +1,5 @@
 
+
 data "aws_vpc" "insta_vpc" {
   filter {
     name   = "tag:Name"
@@ -19,12 +20,12 @@ resource "aws_security_group" "sg" {
   for_each = var.sg
   name     = each.key
   dynamic "ingress" {
-    for_each = each.value.port
+    for_each = each.value
     content {
-      from_port   = ingress.value
-      to_port     = ingress.value
+      from_port   = ingress.value.port
+      to_port     = ingress.value.port
       protocol    = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
+      cidr_blocks = [ingress.value.cidr]
     }
   }
   egress {

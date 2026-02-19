@@ -23,9 +23,11 @@ variable "subnet" {
 }
 
 variable "sg" {
-  type = map(object({
-    port = list(number)
-  }))
+  type = map(list(object({
+    port = number,
+    cidr = string
+
+  })))
 }
 variable "instance" {
   type = map(object({
