@@ -1,4 +1,4 @@
-# Instagram MERN
+# Instagram MERN app
 Full-Stack Instagram Clone using MERN Stack and Socket.IO
 
 [Visit Now](https://instagramweb-mern.vercel.app) 🚀
