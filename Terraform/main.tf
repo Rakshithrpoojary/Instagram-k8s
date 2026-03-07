@@ -73,3 +73,6 @@ resource "aws_instance" "instance" {
   }
   tags = each.value.tags
 }
+# resource "aws_key_pair" "name" {
+
+# }
